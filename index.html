@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <title>Dashboard SIG Winangun Satu (Fix Coordination)</title>
+
+        <link rel="stylesheet" href="resources/ol.css">
+        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+        <link rel="stylesheet" href="resources/ol-layerswitcher.css">
+        <link rel="stylesheet" href="resources/qgis2web.css">
+
+        <style>
+            html, body, #map {
+                width: 100%; height: 100%; padding: 0; margin: 0;
+                background-color: #f0f2f5;
+                font-family: 'Segoe UI', Roboto, sans-serif;
+            }
+
+            .sidebar {
+                position: absolute;
+                top: 20px; right: 20px;
+                width: 320px;
+                z-index: 2000;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .card {
+                background: white;
+                border-radius: 15px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+                overflow: hidden;
+            }
+
+            .card-header {
+                background: #004d40;
+                color: white;
+                padding: 12px 20px;
+                font-weight: 600;
+                font-size: 13px;
+            }
+
+            .card-body { padding: 20px; }
+
+            .map-btn {
+                width: 100%;
+                background: #ffffff;
+                border: 1px solid #e1e4e8;
+                padding: 12px;
+                margin-bottom: 8px;
+                border-radius: 10px;
+                text-align: left;
+                cursor: pointer;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                transition: all 0.2s ease;
+            }
+
+            .map-btn:hover {
+                background: #004d40;
+                color: white;
+                transform: translateX(-5px);
+            }
+
+            .ol-zoom { top: 20px !important; left: 20px !important; }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+
+        <div class="sidebar">
+            <div class="card">
+                <div class="card-header">INFO WILAYAH</div>
+                <div class="card-body">
+                    <h2 style="margin:0; font-size:18px;">Winangun Satu</h2>
+                    <p style="font-size:12px; color:#666;">Klik tombol di bawah untuk menuju lokasi presisi.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">NAVIGASI FASILITAS</div>
+                <div class="card-body">
+                    <button class="map-btn" onclick="goToLocation(124.83998533783112, 1.44218889533959, 124., 'Kantor Lurah')">
+                        <i class="fas fa-university"></i> Kantor Lurah Winangun Satu
+                    </button>
+                    
+                    <button class="map-btn" onclick="goToLocation(124.83770419113497, 1.4388324883555073, 'Gereja')">
+                        <i class="fas fa-church"></i> Gereja GMIM BETHEL WINANGUN
+                    </button>
+                    
+                    <button class="map-btn" onclick="goToLocation(124.83635263330758, 1.4374753797080424, 'Masjid')">
+                        <i class="fas fa-mosque"></i> Masjid ALMUTTAQIN WINANGUN
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script src="resources/qgis2web_expressions.js"></script>
+        <script src="resources/functions.js"></script>
+        <script src="resources/ol.js"></script>
+        <script src="resources/ol-layerswitcher.js"></script>
+        <script src="layers/WinangunSatu_1.js"></script>
+        <script src="styles/WinangunSatu_1_style.js"></script>
+        <script src="layers/layers.js"></script> 
+        <script src="resources/Autolinker.min.js"></script>
+        <script src="resources/qgis2web.js"></script>
+
+        <script>
+            function goToLocation(lon, lat, name) {
+                if (typeof map !== 'undefined') {
+                    var targetCenter = ol.proj.fromLonLat([parseFloat(lon), parseFloat(lat)]);
+                    
+                    map.getView().animate({
+                        center: targetCenter,
+                        zoom: 19,
+                        duration: 1500
+                    });
+                    console.log("Navigasi Berhasil ke: " + name);
+                } else {
+                    alert("Peta belum siap!");
+                }
+            }
+        </script>
+    </body>
+</html>
